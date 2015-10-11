@@ -217,7 +217,7 @@ class PerfTestState {
   };
 
   explicit PerfTestState(FILE *output)
-      : output_(output), test_count_(0), title_printed_(false) {}
+      : output_(output) {}
   ~PerfTestState() {}
 
   void Add(uint32 bytes, const char *name, double cycles) {
@@ -311,8 +311,8 @@ class PerfTestState {
   PerfTestState();
 
   FILE *output_;
-  size_t test_count_;
-  bool title_printed_;
+  size_t test_count_{0};
+  bool title_printed_{false};
   uint32 bytes_;
   struct {
     const char *name;
@@ -907,7 +907,7 @@ class CrcVerifierFactoryInterface {
 // functionality test.
 class CrcVerifier {
  public:
-  CrcVerifier() : memory_needed_(0), factory_count_(0) {}
+  CrcVerifier() {}
 
   void add(const CrcVerifierFactoryInterface *factory) {
     if (factory_count_ < MAX_FACTORY_COUNT) {
@@ -977,9 +977,9 @@ class CrcVerifier {
   enum {
     MAX_FACTORY_COUNT = 100,
   };
-  void *aligned_memory_;
-  size_t memory_needed_;
-  size_t factory_count_;
+  void *aligned_memory_{nullptr};
+  size_t memory_needed_{0};
+  size_t factory_count_{0};
   const CrcVerifierFactoryInterface *factory_[MAX_FACTORY_COUNT];
 };
 
